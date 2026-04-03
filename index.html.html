@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>You've been trolled</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+    }
+
+    #text {
+        position: absolute;
+        color: red;
+        font-size: 48px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+</style>
+</head>
+<body>
+
+<audio id="audio" autoplay loop>
+    <source src="red-sun.mp3" type="audio/mpeg">
+</audio>
+
+<div id="text">You've been trolled</div>
+
+<script>
+    const text = document.getElementById("text");
+
+    let x = 100;
+    let y = 100;
+    let dx = 3;
+    let dy = 3;
+
+    function animate() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const rect = text.getBoundingClientRect();
+
+        x += dx;
+        y += dy;
+
+        if (x + rect.width >= width || x <= 0) {
+            dx = -dx;
+        }
+
+        if (y + rect.height >= height || y <= 0) {
+            dy = -dy;
+        }
+
+        text.style.left = x + "px";
+        text.style.top = y + "px";
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // próba wymuszenia autoplay (czasem wymaga kliknięcia)
+    window.onload = () => {
+        const audio = document.getElementById("audio");
+        audio.play().catch(() => {
+            console.log("Autoplay zablokowany – kliknij stronę");
+        });
+    };
+</script>
+
+</body>
+</html>
